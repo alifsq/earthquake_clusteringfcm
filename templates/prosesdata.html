@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="flex-1 p-10">
+    <h1 class="font-bold mb-6" style="font-size: xx-large;">Halaman Proses Data</h1>
+    <div class="bg-gray-100">
+        <h2 class="font-bold mb-6 text-center decoration-solid" style="font-size: x-large;">Hasil Normalisasi Data</h2>
+
+        <!-- Hasil Normalisasi Ditampilkan di Tabel -->
+        {% if data %}
+        <table class="min-w-full bg-white border border-gray-300">
+            <thead>
+                <tr class="bg-neutral-400">
+                    <th class="px-4 py-2 border-b">Latitude</th>
+                    <th class="px-4 py-2 border-b">Longitude</th>
+                    <th class="px-4 py-2 border-b">Magnitude</th>
+                    <th class="px-4 py-2 border-b">Depth</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data %}
+                <tr>
+                    <td class="border px-4 py-2 border-b">{{ row[0] }}</td>
+                    <td class="border px-4 py-2 border-b">{{ row[1] }}</td>
+                    <td class="border px-4 py-2 border-b">{{ row[2] }}</td>
+                    <td class="border px-4 py-2 border-b">{{ row[3] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+
+        <div class="pagination mt-4 flex justify-center overflow-x-auto">
+            <!-- Previous Button -->
+            {% if page > 1 %}
+            <a href="?page={{ page - 1 }}"
+                class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 mr-2">Previous</a>
+            {% endif %}
+
+            <!-- Page Number Buttons with Scrolling -->
+            <div class="flex space-x-1 overflow-x-auto" style="max-width: 200px;">
+                {% if total_pages <= 5 %} <!-- Display all pages if total pages <=5 -->
+                    {% for p in range(1, total_pages + 1) %}
+                    <a href="?page={{ p }}"
+                        class="bg-gray-300 text-black px-3 py-2 rounded-md hover:bg-gray-400 {{ 'font-bold' if p == page else '' }}">
+                        {{ p }}
+                    </a>
+                    {% endfor %}
+                    {% else %}
+                    <!-- Conditionally display pages with ellipsis if there are more than 5 pages -->
+                    {% if page > 2 %}
+                    <a href="?page=1" class="bg-gray-300 text-black px-3 py-2 rounded-md hover:bg-gray-400">1</a>
+                    {% if page > 3 %}<span class="px-2">...</span>{% endif %}
+                    {% endif %}
+
+                    <!-- Display 2 pages before and after the current page -->
+                    {% for p in range(max(1, page - 2), min(total_pages, page + 2) + 1) %}
+                    <a href="?page={{ p }}"
+                        class="bg-gray-300 text-black px-3 py-2 rounded-md hover:bg-gray-400 {{ 'font-bold' if p == page else '' }}">
+                        {{ p }}
+                    </a>
+                    {% endfor %}
+
+                    {% if page < total_pages - 2 %} {% if page < total_pages - 3 %}<span class="px-2">...</span>{% endif
+                        %}
+                        <a href="?page={{ total_pages }}"
+                            class="bg-gray-300 text-black px-3 py-2 rounded-md hover:bg-gray-400">{{ total_pages }}</a>
+                        {% endif %}
+                        {% endif %}
+            </div>
+
+            <!-- Next Button -->
+            {% if page < total_pages %} <a href="?page={{ page + 1 }}"
+                class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 ml-2">Next</a>
+                {% endif %}
+        </div>
+
+    </div>
+</div>
+{% endblock %}

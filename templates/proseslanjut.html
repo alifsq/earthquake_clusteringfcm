@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="flex-1 p-10">
+    <h1 class="font-bold mb-6" style="font-size: xx-large;">Halaman Proses Data Lanjut</h1>
+    <div class="bg-gray-100">
+
+        {# <!-- Form untuk memicu pencarian jumlah kluster -->
+        <div class="justify-left mb-8">
+            <form action="/proseslanjut" method="POST">
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Mulai Pencarian Kluster
+                </button>
+            </form>
+        </div> #}
+
+        <!-- Tampilkan hasil jika sudah ada data plot_url -->
+        {% if plot_url %}
+        <div class="flex justify-center items-start">
+            <div class="w-1/2">
+                <!-- Grafik Silhouette -->
+                <div class="text-center">
+                    <img src="data:image/png;base64,{{ plot_url }}" alt="Silhouette Score Plot" class="mx-auto">
+                </div>
+            </div>
+            <div class="w-1/2" style="margin-left: 50px;">
+                <div class=" text-left pl-8"></div>
+                <h3 class="text-lg font-semibold">Skor Silhouette untuk Setiap Kluster:</h3>
+                <ul class="list-disc list-inside">
+                    {% for n_clusters, silhouette_avg in silhouette_data %}
+                    <li>Jumlah Kluster = {{ n_clusters }}, Skor Silhouette = {{ silhouette_avg }}</li>
+                    {% endfor %}
+                </ul>
+                <div class="p-2 mt-4 bg-green-500" style="width: 300px;">
+                    <h2 class="text-xl ">Jumlah kluster terbaik adalah: {{ optimal_clusters }}</h2>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Tampilkan Centroid di Tabel -->
+        <h2 class="font-bold mb-6 decoration-solid mt-6" style="font-size: x-large;">Hasil Centroid</h2>
+        {% if fcm_centers %}
+        <table class="min-w-full bg-white border border-gray-300">
+            <thead>
+                <tr class="bg-gray-300">
+                    <th class="border px-4 py-2 border-gray-400 text-center">Kluster</th>
+                    <th class="border px-4 py-2 border-gray-400 text-center ">Latitude</th>
+                    <th class="border px-4 py-2 border-gray-400 text-center ">Longitude</th>
+                    <th class="border px-4 py-2 border-gray-400 text-center ">Magnitude</th>
+                    <th class="border px-4 py-2 border-gray-400 text-center ">Depth</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for center in fcm_centers %}
+                <tr>
+                    <td class="border px-4 py-2 border-gray-400 text-center">Kluster {{ loop.index }}</td>
+                    <td class="border px-4 py-2 border-gray-400 text-center">{{ center[0] }}</td>
+                    <td class="border px-4 py-2 border-gray-400 text-center">{{ center[1] }}</td>
+                    <td class="border px-4 py-2 border-gray-400 text-center">{{ center[2] }}</td>
+                    <td class="border px-4 py-2 border-gray-400 text-center">{{ center[3] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    </div>
+</div>
+</div>
+</div>
+<!-- Tampilkan centroid kluster dalam bentuk tabel -->
+
+{% endif %}
+</div>
+</div>
+</div>
+{% endblock %}

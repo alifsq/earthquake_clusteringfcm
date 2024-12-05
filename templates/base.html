@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="{{ url_for('static', filename='dist/output.css') }}" rel="stylesheet" />
+  <title>Clustering apps</title>
+  <style>
+    /* CSS Custom untuk Active State */
+    .active {
+      background-color: #22c55e;
+      /* bg-green-500 */
+    }
+
+    table {
+      font-size: 15px;
+      /* Ukuran font yang lebih kecil */
+    }
+
+    .centerkolom {
+      padding: 4px 8px;
+      text-align: center;
+      /* Mengecilkan padding */
+    }
+
+    .table-container {
+      max-width: 90%;
+      /* Batasi lebar tabel */
+      margin: auto;
+      /* Agar tabel berada di tengah */
+    }
+
+    button.buttonkolom {
+      align-items: center;
+      font-size: 10px;
+      /* Ukuran font tombol lebih kecil */
+      padding: 4px 8px;
+      /* Mengecilkan tombol */
+    }
+    .action-buttons {
+    display: flex;
+    justify-content: center; /* Pusatkan tombol secara horizontal */
+    align-items: center; /* Pusatkan tombol secara vertikal */
+  }
+  </style>
+</head>
+
+<body class="bg-gray-100">
+  <div class="min-h-screen flex">
+    <!-- Sidebar / Navigation Bar -->
+    <nav class="bg-gray-800 text-white fixed h-full" style="width:200px;">
+      <div class="p-6">
+        <h1 class="text-2xl font-bold mb-6">Sistem Clustering</h1>
+        <ul>
+          <li class="mb-4 mt-2">
+            <a href="/inputdata"
+              class="block py-2 px-4 text-lg hover:bg-green-600 rounded {% if request.path == '/inputdata' %}active{% endif %}">Input
+              Data</a>
+          </li>
+          <li class="mb-4 mt-2">
+            <a href="/prosesdata"
+              class="block py-2 px-4 text-lg hover:bg-green-600 rounded {% if request.path == '/prosesdata' %}active{% endif %}">Proses
+              Data</a>
+          </li>
+          <li class="mb-4 mt-2"></li>
+          <a href="/proseslanjut"
+            class="block py-2 px-4 text-lg hover:bg-green-600 rounded {% if request.path == '/proseslanjut' %}active{% endif %}">Proses
+            Lanjut</a>
+          </li>
+          <li class="mb-4 mt-2">
+            <a href="/hasil"
+              class="block py-2 px-4 text-lg hover:bg-green-600 rounded {% if request.path == '/hasil' %}active{% endif %}">Hasil
+              Clustering</a>
+          </li>
+          <li class="mb-4 mt-2">
+            <a href="/visualisasi"
+              class="block py-2 px-4 text-lg hover:bg-green-600 rounded {% if request.path == '/visualisasi' %}active{% endif %}">Visualisasi
+              Data</a>
+          </li>
+          <li class="mb-4 mt-2">
+            <a  href="{{ url_for('logout') }}" class="block py-2 px-4 text-lg bg-red-500 hover:bg-red-400 rounded ">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <!-- Main Content -->
+    <div class="ml-[200px] w-full">
+      {% block content %}
+      <!-- Content goes here -->
+      {% endblock %}
+    </div>
+  </div>
+</body>
+<script src="{{ url_for('static', filename='src/scripts.js') }}"></script>
+</html>
